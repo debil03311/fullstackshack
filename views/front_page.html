@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My website</title>
+</head>
+
+<body onload="showChatLog()">
+
+    <h1 hidden>Hello Me</h1>
+
+    <form id="postCommentForm" action="/front_page" method="post">
+        <div class="form-group">
+            <textarea name="comments" id="comments"></textarea>
+        </div>
+        <input type="submit" value="Send message">
+    </form>
+
+    <script src="./index.js" type="text/javascript"></script>
+
+</body>
+
+</html>
