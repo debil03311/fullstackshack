@@ -30,6 +30,15 @@ function postComment(writtenComment)
     writtenComment.ownerDocument.body.appendChild(message);
 }
 
+function prefixZero(number) {
+    number = parseInt(number);
+
+    if (number < 10 && number > -1)
+        number = "0" + number;
+
+    return number;
+}
+
 const messages = document.getElementById("messages");
 
 // the <body onload="function()"> calls this
@@ -42,8 +51,14 @@ async function showChatLog()
     for (const chat_line of chat) {
         const message = document.createElement('div');
         message.className = "message";
+
+        const time = chat_line.time
+            .split(":")
+            .map((number) => prefixZero(number))
+            .join(":")
+
         message.innerHTML = `
-            <span class="msg-time">${chat_line.time}</span>
+            <span class="msg-time">${time}</span>
             <span class="msg-sender">${chat_line.sender}</span>:
             <span class="msg-content">${chat_line.message}</span>
         `;
