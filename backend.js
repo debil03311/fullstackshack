@@ -28,9 +28,11 @@ app.post('/front_page', (req, res) => {
     // so use the time formatting functions below 
     const d = new Date();
 
-    if (req.body.comments != "") {    // only run if string is not empty
-        console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
-    }
+    // only run if string is not empty
+    if (req.body.comments)
+        return res.redirect('back');
+
+    console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
 
     fs.readFile(
         `${__dirname}\\views\\chatLog.json`,

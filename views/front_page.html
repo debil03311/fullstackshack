@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="./front_page.css">
 </head><body onload="showChatLog()">
 
-    <h1 hidden>Hello Me</h1>
+    <div id="wrapper">
+        <h1 hidden>Hello Me</h1>
 
-    <form id="postCommentForm" action="/front_page" method="post">
-        <textarea placeholder="Type here" name="comments" id="comments"></textarea>
-        <input type="submit" value="Send message">
-    </form>
+        <form id="postCommentForm" action="/front_page" method="post">
+            <textarea placeholder="Type here" name="comments" id="comments"></textarea>
+            <input type="submit" value="Send message">
+        </form>
 
-    <div id="messages"></div>
+        <div id="messages"></div>
+    </div>
 
 <script src="./index.js" type="text/javascript"></script>
 </body></html>
