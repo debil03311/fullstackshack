@@ -46,9 +46,16 @@ input {
 }
 
 textarea {
-    height: 60px;
     background: var(--form-bg);
     border: none;
+}
+
+#username {
+    height: 1.2em;
+}
+
+#comments {
+    height: 60px;
 }
 
 input {

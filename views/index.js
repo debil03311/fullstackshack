@@ -57,3 +57,17 @@ async function showChatLog()
     //     xhr.send();
     // };
 }
+
+function loadUsername() {
+    const username = localStorage.username;
+
+    if (username)
+        document.getElementById("username").value = username;
+}
+
+function storeUsername() {
+    localStorage.setItem(
+        "username",
+        document.getElementById("username").value
+    );
+}

@@ -20,7 +20,8 @@ app.get('/front_page', (req, res) => {
 
     // this just sends the file directly
     // __dirname is awesome, it gets the current directory
-    res.sendFile(`${__dirname}\\views\\front_page.html`);
+    // res.sendFile(`${__dirname}/views/front_page.html`);
+    res.sendFile(`${__dirname}/views/front_page.html`);
 });
 
 app.post('/front_page', (req, res) => {
@@ -28,14 +29,16 @@ app.post('/front_page', (req, res) => {
     // so use the time formatting functions below 
     const d = new Date();
 
+    // console.log(req);
+
     // only run if string is not empty
-    if (!req.body.comments)
+    if (!req.body.username || !req.body.comments)
         return res.redirect('back');
 
     console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
 
     fs.readFile(
-        `${__dirname}\\views\\chatLog.json`,
+        `${__dirname}/views/chatLog.json`,
         'utf-8',
         (err, data) => {
             if (err) throw err;
@@ -44,12 +47,12 @@ app.post('/front_page', (req, res) => {
             data.push({
                 date: `${d.getUTCDate}/${d.getUTCMonth()}/${d.getUTCFullYear()}`,
                 time: `${d.getUTCHours()}:${d.getUTCMinutes()}`,
-                sender: req.ip,
+                sender: req.body.username,
                 message: req.body.comments,
             });
 
             fs.writeFile(
-                `${__dirname}\\views\\chatLog.json`,
+                `${__dirname}/views/chatLog.json`,
                 JSON.stringify(data),
                 (err) => {
                     if (err) throw err;

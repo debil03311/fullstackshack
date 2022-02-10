@@ -6,14 +6,19 @@
 
     <title>My website</title>
     <link rel="stylesheet" href="./front_page.css">
-</head><body onload="showChatLog()">
+</head><body onload="loadUsername(); showChatLog();">
 
     <div id="wrapper">
         <h1 hidden>Hello Me</h1>
 
-        <form id="postCommentForm" action="/front_page" method="post">
-            <textarea placeholder="Type here" name="comments" id="comments"></textarea>
-            <input type="submit" value="Send message">
+        <form id="postCommentForm"
+              method="post"
+              action="/front_page">
+            <textarea placeholder="Username" name="username" id="username"></textarea>
+            <textarea placeholder="Your comment" name="comments" id="comments"></textarea>
+
+            <!-- <input type="file" name="image" id="image"> -->
+            <input type="submit" value="Send message" onclick="storeUsername()">
         </form>
 
         <div id="messages"></div>
