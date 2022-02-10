@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 
 // important for requests
 const bodyParser = require('body-parser');
@@ -23,14 +24,37 @@ app.get('/front_page', (req, res) => {
 });
 
 app.post('/front_page', (req, res) => {
-    // gets current time in milliseconds since 1/01/1970,
-    // so use the time formatting functions below
+    // gets current time, in millisecond since 1/01/1970
+    // so use the time formatting functions below 
     const d = new Date();
 
-    // only run if string is not empty
-    if ( req.body.comments != "" ) {
+    if (req.body.comments != "") {    // only run if string is not empty
         console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
     }
+
+    fs.readFile(
+        `${__dirname}\\views\\chatLog.json`,
+        'utf-8',
+        (err, data) => {
+            if (err) throw err;
+            data = JSON.parse(data);
+
+            data.push({
+                date: `${d.getUTCDate}/${d.getUTCMonth()}/${d.getUTCFullYear()}`,
+                time: `${d.getUTCHours()}:${d.getUTCMinutes()}`,
+                sender: req.ip,
+                message: req.body.comments,
+            });
+
+            fs.writeFile(
+                `${__dirname}\\views\\chatLog.json`,
+                JSON.stringify(data),
+                (err) => {
+                    if (err) throw err;
+                }
+            );
+        }
+    );
 
     res.redirect('back');
 });

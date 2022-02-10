@@ -2,11 +2,14 @@
     --bg: #282828;
     --fg: #DDD;
 
+    --accent: #fb4934;
+
     --form-bg: #ebdbb2;
-    --form-border: #fb4934;
+    --form-border: var(--accent);
 }
 
 body {
+    --gap: 12px;
     min-height: 100vh;
     background: var(--bg);
     color: var(--fg);
@@ -18,6 +21,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: var(--gap);
 }
 
 form {
@@ -25,7 +29,7 @@ form {
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--gap);
 }
 
 textarea,
@@ -52,4 +56,20 @@ input {
 input:hover {
     background: var(--form-border);
     color: var(--bg);
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.msg-time {
+    opacity: .6;
+    font-size: .8em;
+}
+
+.msg-sender {
+    color: var(--accent);
+    font-weight: bold;
 }
