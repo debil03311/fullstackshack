@@ -1,5 +1,5 @@
-//const fs = require('fs');   // there is no definition for "require" in client side JavaScript
-
+// there is no definition for "require" in client side JavaScript
+//const fs = require('fs');
 
 function createNewButton(callerButton)
 {
@@ -10,14 +10,17 @@ function createNewButton(callerButton)
     callerButton.ownerDocument.body.appendChild(clone);
 }
 
-
 function showImage()
 {
-    window.open("https://www.w3schools.com/images/w3lynx_200.png", "imageViewer", "width=800,height=800");
+    window.open(
+        "https://www.w3schools.com/images/w3lynx_200.png",
+        "imageViewer",
+        "width=800,height=800"
+    );
 } 
 
-
-function postComment(writtenComment)        // deprecated
+// deprecated
+function postComment(writtenComment)
 {
     console.log(writtenComment);
 
@@ -27,19 +30,30 @@ function postComment(writtenComment)        // deprecated
     writtenComment.ownerDocument.body.appendChild(message);
 }
 
+const messages = document.getElementById("messages");
 
-function showChatLog()  // the <body onload="function()"> calls this
+// the <body onload="function()"> calls this
+async function showChatLog()
 {
-    console.log('what');
-
-    fetch('./chatLog.json')
+    const chat = await fetch('./chatLog.json')
         .then(res => res.json())
-        .then(data => console.log(data));
-    /*
-    const getData = () => {     // XMLHttpRequest() is a global constructor
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${__dirname}\\chatLog.json'`);
-        xhr.send();
-    };
-    */
+
+    // special JS for loop magic, check it later ("of" keyword)
+    for (const chat_line of chat) {
+        const message = document.createElement('div');
+        message.className = "message";
+        message.innerHTML = `
+            <span class="msg-time">${chat_line.time}</span>
+            <span class="msg-sender">${chat_line.sender}</span>:
+            <span class="msg-content">${chat_line.message}</span>
+        `;
+
+        messages.appendChild(message);
+    }
+
+    // const getData = () => {     // XMLHttpRequest() is a global constructor
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('GET', `${__dirname}\\chatLog.json'`);
+    //     xhr.send();
+    // };
 }

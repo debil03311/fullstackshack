@@ -1,0 +1,84 @@
+:root {
+    --bg: #282828;
+    --fg: #DDD;
+
+    --accent: #fb4934;
+
+    --form-bg: #ebdbb2;
+    --form-border: var(--accent);
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: sans-serif;
+    font-size: 1em;
+    margin: 0;
+
+    display: grid;
+    place-content: center;
+}
+
+#wrapper {
+    --gap: 12px;
+    width: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap);
+}
+
+form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+textarea,
+input {
+    font: inherit;
+    padding: .48em;
+}
+
+textarea {
+    height: 60px;
+    background: var(--form-bg);
+    border: none;
+}
+
+input {
+    background: var(--bg);
+    color: var(--form-border);
+    font-weight: bold;
+    border: solid 1px var(--form-border);
+    cursor: pointer;
+}
+
+input:hover {
+    background: var(--form-border);
+    color: var(--bg);
+}
+
+#messages {
+    width: 100%;
+    word-break: break-all;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.msg-time {
+    opacity: .6;
+    font-size: .8em;
+}
+
+.msg-sender {
+    color: var(--accent);
+    font-weight: bold;
+}
