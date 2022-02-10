@@ -6,15 +6,18 @@ const port = 4200;
 
 const server = http.createServer(function(req, res) {
 
-    res.setHeader('Content-type', 'text/html');     // the 2nd parameter is the MIME type of your response
+    // the 2nd parameter is the MIME type of your response
+    res.setHeader('Content-type', 'text/html');
     res.setHeader('Access-Control-Allow-Origin', "*");
-    res.writeHead(200);    // writeHead is the status code, only place it once at the end, there are a LOT of possible status codes
+
+    // writeHead is the status code
+    // only place it once at the end
+    // there are a LOT of possible status codes
+    res.writeHead(200);
 
     // just some data for testing purposes
-    /*  
-    let dataObj = { id:123, name:"Bob", email:"bob@work.org" };
-    let data = JSON.stringify(dataObj);
-    */
+    // let dataObj = { id:123, name:"Bob", email:"bob@work.org" };
+    // let data = JSON.stringify(dataObj);
 
     const home = 1;
     fs.readFile('./front_page.html', 'utf-8', function(err, txt) {
