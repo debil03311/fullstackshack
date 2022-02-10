@@ -29,7 +29,7 @@ app.post('/front_page', (req, res) => {
     const d = new Date();
 
     // only run if string is not empty
-    if (req.body.comments)
+    if (!req.body.comments)
         return res.redirect('back');
 
     console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
