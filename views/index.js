@@ -48,7 +48,7 @@ async function showChatLog()
         .then(res => res.json())
 
     // special JS for loop magic, check it later ("of" keyword)
-    for (const chat_line of chat) {
+    for (const chat_line of chat.reverse()) {
         const message = document.createElement('div');
         message.className = "message";
 
