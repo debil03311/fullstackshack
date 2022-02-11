@@ -8,6 +8,15 @@
     --form-border: var(--accent);
 }
 
+::-webkit-scrollbar {
+    background: none;
+    width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+}
+
 body {
     min-height: 100vh;
     background: var(--bg);
@@ -73,7 +82,9 @@ input:hover {
 
 #messages {
     width: 100%;
+    max-height: 420px;
     word-break: break-word;
+    overflow-x: auto;
 
     display: flex;
     flex-direction: column;
