@@ -57,5 +57,87 @@ router.get('/chatlog/query', (req, res) => {
     }
 });
 
+
+router.get('/boards', (req, res) => {
+
+    const dirArray = fs.readdirSync(path.resolve(__dirname, '..', 'public', 'boards'));
+    res.status(200).header( {'content-type': 'application/json' } ).send(dirArray);
+});
+
+
+router.get('/:board/page/:num', (req, res) => {
+
+    const params = req.params;
+    let result = [];
+
+    fs.readFile(
+        path.resolve(__dirname, '..', 'public', 'boards', params.board, 'threads.json'),
+        'utf-8',
+        (err, data) => {
+            if (err) {
+                res.status(404).header( {'content-type': 'text/plain' } ).send('Board does not exist');
+                return;
+            }
+
+            data = JSON.parse(data);
+            for (let i = (params.num - 1) * 10; i < (params.num * 10); i++) {
+                result.push(data[i]);
+            }
+
+            res.status(200).header( {'content-type': 'application/json' } ).send(result);
+        }
+    );
+    
+});
+
+
+router.get('/:board/post/:num', (req, res) => {
+
+    const params = req.params;
+    
+    if (isNaN(Number(params.num))) {
+        res.status(404).header( {'content-type': 'text/plain' } ).send('Invalid format for post ID, input a positive integer');
+        return;
+    }
+
+    fs.readFile(
+        path.resolve(__dirname, '..', 'public', 'boards', params.board, 'threads.json'),
+        'utf-8',
+        (err, data) => {
+            if (err) {
+                res.status(404).header( {'content-type': 'text/plain' } ).send('Board does not exist');
+                return;
+            }
+            data = JSON.parse(data);
+
+            // check the current N active thread IDs (string or number)
+            for (let thread of data) {
+                if (thread.id == params.num) {
+                    res.status(200).header( {'content-type': 'application/json' } ).send(thread);
+                    return;
+                }
+            }
+
+            // check for post ID in every thread's replies array
+            for (let thread of data) {
+                for (let post of thread.replies) {
+                    if (post.id == params.num) {
+                        res.status(200).header( {'content-type': 'application/json' } ).send(post);
+                        return;
+                    }
+                }
+            }
+
+            // if there is no active post with this ID
+            res.status(404).header( {'content-type': 'text/plain' } ).send('Post could not be found');
+
+        }
+    );
+
+
+});
+
+
+
 // export router
 module.exports = router;

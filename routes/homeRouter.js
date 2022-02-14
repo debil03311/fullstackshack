@@ -46,6 +46,37 @@ router.get('/favicon.ico', (req, res) => {
 
 // method POST
 
+router.post('/post', (req, res) => {
+
+    const time = new Date();
+    const board = req.body.board;
+
+    // the reading can start async, but everything after needs to be sync
+    fs.readFile(
+        path.resolve(__dirname, '..', 'public', 'boards', board, 'threads.json'),
+        'utf-8',
+        (err, threadsFile) => {
+            
+            // the threads file within the board folder must already exist
+            if (err) {
+                res.status(404).header( {'content-type': 'text/plain' } ).send('The board does not exist');
+                return;
+            }
+
+            let postsTrackFile = fs.readFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.txt'));
+            postsTrackFile = JSON.parse(data);
+
+
+
+        }
+    );
+});
+
+
+
+
+
+
 router.post('/', (req, res) => {
     const d = new Date();
 
