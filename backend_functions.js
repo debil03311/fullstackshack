@@ -1,5 +1,15 @@
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
+//const cookieParser = require('cookie-parser');
+
+
+const app = express();
+
+// use middleware even here
+//app.use(cookieParser());
+
+
 
 function prefixZero(number) {
     number = parseInt(number);
@@ -13,6 +23,16 @@ function prefixZero(number) {
 
 
 // custom middleware
+
+
+const cookieCheck = (req, res, next) => {
+    if (Object.keys())
+    console.log(req.cookies);
+    next();
+}
+
+
+
 const reqLog = (req, res, next) => {
     const time = new Date();
     const method = req.method;
@@ -70,6 +90,9 @@ const reqLog = (req, res, next) => {
     next();
 }
 
+
+
+
 const timeLog = (message) => {
     const time = new Date();
     console.log(`${message} ${time}`);
@@ -80,6 +103,7 @@ const timeLog = (message) => {
 module.exports = {
     reqLog,
     timeLog,
+    cookieCheck,
 };
 
 

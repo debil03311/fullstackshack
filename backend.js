@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const bfun = require('./backend_functions.js');
+const cookieParser = require('cookie-parser');
 
 // routes
 const homeRouter = require(path.resolve(__dirname, 'routes', 'homeRouter.js'));
@@ -11,8 +12,10 @@ const apiRouter = require(path.resolve(__dirname, 'routes', 'apiRouter.js'));
 const app = express();
 
 
-// this applies middleware to every HTTP event
+// this applies middleware to every HTTP event in this exact order
 app.use(bfun.reqLog);
+app.use(cookieParser());
+//app.use(bfun.cookieCheck);
 
 // parse the body of HTTP requests
 app.use(express.urlencoded({ extended: false }));
