@@ -13,7 +13,7 @@ router.get('/chatlog/query', (req, res) => {
     if (Object.keys(queryReq).length > 0) {
 
         fs.readFile(
-            path.resolve(__dirname, '..', 'public', 'src', 'chatLog.json'),
+            path.resolve(__dirname, '..', 'public', 'chatLog.json'),
             'utf-8',
             (err, data) => {
                 if (err) {

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     
-    const filePath = path.resolve(__dirname, '..', 'public', 'src', 'home.html');
+    const filePath = path.resolve(__dirname, '..', 'public', 'home.html');
     fs.readFile( 
         filePath,
         'utf-8',
@@ -28,14 +28,15 @@ router.get('/', (req, res) => {
 
 router.get('/*', (req, res) => {
 
-    //console.log(req.originalUrl);
-    if (req.originalUrl.includes('..')) {
-        res.status(404).header( {'content-type': 'text/html' } ).send('You can\'t backtrack out of any directory');
+    const filePath = path.normalize(path.resolve(__dirname, '..', 'public') + req.originalUrl);
+    const fileExt = path.extname(filePath);
+
+    // cannot request anything outside of /public
+    if ( !filePath.includes(path.resolve(__dirname, '..', 'public')) ) {
+        console.log(filePath);
+        res.status(404).header( {'content-type': 'text/html' } ).send('Cannot request resources outside the public folder');
         return;
     }
-
-    const filePath = path.resolve(__dirname, '..', 'public', 'src') + req.originalUrl;
-    const fileExt = path.extname(filePath);
 
     // if the file extention is valid, proceed
     const extTypes = ['.html', '.js', '.css', '.vue', '.jpg', '.jpeg', '.ico', '.json'];
