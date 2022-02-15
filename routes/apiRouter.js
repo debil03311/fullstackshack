@@ -1,4 +1,5 @@
 const express = require('express');
+const { route } = require('express/lib/application');
 const fs = require('fs');
 const path = require('path');
 
@@ -12,7 +13,7 @@ router.get('/chatlog/query', (req, res) => {
     if (Object.keys(queryReq).length > 0) {
 
         fs.readFile(
-            path.resolve(__dirname, '..', 'public', 'chatLog.json'),
+            path.resolve(__dirname, '..', 'public', 'src', 'chatLog.json'),
             'utf-8',
             (err, data) => {
                 if (err) {
@@ -137,6 +138,10 @@ router.get('/:board/post/:num', (req, res) => {
 
 });
 
+// if the user requested anything else from API, send error
+router.get('/*', (req, res) => {
+    res.status(404).header( {'content-type': 'text/plain' } ).send('Invalid use of API');
+});
 
 
 // export router

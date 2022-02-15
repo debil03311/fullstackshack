@@ -23,8 +23,9 @@ app.use(express.urlencoded({ extended: false }));
 bfun.timeLog('Server started:');
 
 // using the routers in order
-app.use('/', homeRouter);
 app.use('/api', apiRouter);
+app.use('/', homeRouter);
+
 
 
 
