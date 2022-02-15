@@ -13,14 +13,13 @@ const app = express();
 
 
 // this applies middleware to every HTTP event in this exact order
-app.use(bfun.reqLog);
 app.use(cookieParser());
-//app.use(bfun.cookieCheck);
+app.use(bfun.cookieCheck);
+app.use(bfun.reqLog);
+
 
 // parse the body of HTTP requests
 app.use(express.urlencoded({ extended: false }));
-
-bfun.timeLog('Server started:');
 
 // using the routers in order
 app.use('/api', apiRouter);

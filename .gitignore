@@ -131,4 +131,5 @@ dist
 .pnp.*
 
 # custom ignore 
-traffic_log/
+traffic_log
+public/

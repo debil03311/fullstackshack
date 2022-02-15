@@ -26,6 +26,23 @@ router.get('/', (req, res) => {
 });
 
 
+
+router.get('/board/:board', (req, res) => {
+
+    const filePath = path.resolve(__dirname, '..', 'public', 'boards', req.params.board, 'index.html');
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+        if (err) {
+            res.status(404).header( {'content-type': 'text/html' } ).send('The specified board does not exist');
+            return;
+        }
+
+        res.status(200).header( {'content-type': 'text/html' } ).send(data);
+    });
+
+});
+
+
+
 router.get('/*', (req, res) => {
 
     const filePath = path.normalize(path.resolve(__dirname, '..', 'public') + req.originalUrl);
@@ -153,7 +170,7 @@ router.post('/post', (req, res) => {
     
     // the reading can start async, but everything after needs to be sync
     fs.readFile(
-        path.resolve(__dirname, '..', 'public', 'boards', board, 'threads.json'),
+        path.resolve(__dirname, '..', 'public', 'boards', req.body.board, 'threads.json'),
         'utf-8',
         (err, threadsFile) => {
             
@@ -164,7 +181,8 @@ router.post('/post', (req, res) => {
             }
 
             let postsTrackFile = fs.readFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.txt'));
-            postsTrackFile = JSON.parse(data);
+            postsTrackFile = JSON.parse(postsTrackFile);
+
             const newPostID = postsTrackFile.board + 1;
             let newPost = 'placeholder';
 
@@ -202,6 +220,15 @@ router.post('/post', (req, res) => {
             // resume here
             // increase the post ID number in num_of_posts.json
             // and add the newPost to the correct threads.json
+
+            postsTrackFile[req.body.board] = newPostID;
+            fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.json'), JSON.stringify(postsTrackFile), 'utf-8');
+
+            threadsFile = JSON.parse(threadsFile);
+            threadsFile.push(newPost);
+            fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'boards', req.body.board, 'threads.json'), JSON.stringify(threadsFile), 'utf-8');
+            
+            res.redirect('/board/' + req.body.board);
 
         }
     );
