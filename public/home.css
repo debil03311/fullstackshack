@@ -1,102 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Staatliches&display=swap');
+
+@keyframes header {
+    0% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--blue)
+        ;
+    }
+
+    50% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--green)
+        ;
+    }
+
+    100% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--red)
+        ;
+    }
+}
+
 :root {
-    --bg: #282828;
-    --fg: #DDD;
+    --bg: #383a42;
+    --fg: #EEE;
 
-    --accent: #fb4934;
+    --bg-alt: #282c34;
 
-    --form-bg: #ebdbb2;
-    --form-border: var(--accent);
+    --red: #e06c75;
+    --yellow: #e5c07b;
+    --green: #98c379;
+    --purple: #c678dd;
+    --blue: #61aff0;
+    --blue-light: #56b6c2;
+
+    --rounding: 5px;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-corner
+{
+    background-color: var(--bg-alt);
 }
 
 ::-webkit-scrollbar {
-    background: none;
-    width: 2px;
+    --size: 8px;
+    width: var(--size);
+    height: var(--size);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent);
+    background-color: var(--yellow);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
     min-height: 100vh;
-    background: var(--bg);
+    background-color: var(--bg);
     color: var(--fg);
-    font-family: sans-serif;
-    font-size: 1em;
-    margin: 0;
-
-    display: grid;
-    place-content: center;
-}
-
-#wrapper {
-    --gap: 12px;
-    width: 400px;
+    font: 400 14pt "Source Sans Pro", sans-serif;
+    margin: 0 0 4em 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1em;
+}
+
+a {
+    color: var(--red);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+h1, h2, h3, h4 {
+    font: bold 48pt 'Staatliches', sans-serif;
+    text-transform: uppercase;
+}
+
+header h1 {
+    transform: skew(-4deg, -1deg);
+    animation: 2s header alternate linear infinite;
+}
+
+#board-list,
+.page-selector,
+#board-threads
+{
+    width: clamp(64px, 90%, 1024px);
+}
+
+#board-list {
+    background-color: var(--bg-alt);
+    border-radius: var(--rounding);
+    padding: .8em 1.4em;
+
+    display: flex;
+    flex-flow: row wrap;
     justify-content: center;
-    gap: var(--gap);
+    gap: 20px;
 }
 
-form {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
+.board {
+    text-align: center;
 }
 
-textarea,
-input {
-    font: inherit;
-    padding: .48em;
-}
-
-textarea {
-    background: var(--form-bg);
-    border: none;
-}
-
-#username {
-    height: 1.2em;
-}
-
-#comments {
-    height: 60px;
-}
-
-input {
-    background: var(--bg);
-    color: var(--form-border);
-    font-weight: bold;
-    border: solid 1px var(--form-border);
-    cursor: pointer;
-}
-
-input:hover {
-    background: var(--form-border);
-    color: var(--bg);
-}
-
-#messages {
-    width: 100%;
-    max-height: 420px;
-    word-break: break-word;
-    overflow-x: auto;
-
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.msg-time {
-    opacity: .6;
-    font-size: .8em;
-}
-
-.msg-sender {
-    color: var(--accent);
-    font-weight: bold;
+.board:hover {
+    color: var(--fg);
 }

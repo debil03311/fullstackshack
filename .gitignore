@@ -130,6 +130,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# custom ignore 
-traffic_log
+# custom ignore
+traffic_log/
 public/
+.gitignore
