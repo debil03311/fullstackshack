@@ -1,28 +1,18 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-    <title>My website</title>
+    <title>FullStackShack</title>
     <link rel="stylesheet" href="./home.css">
-</head><body onload="loadUsername(); showChatLog();">
+</head><body>
 
-    <div id="wrapper">
-        <h1 hidden>Hello Me</h1>
+    <header>
+        <h1>FullStackShack</h1>
+    </header>
 
-        <form id="postCommentForm"
-              method="post"
-              action="/">
-            <textarea placeholder="Username" name="username" id="username"></textarea>
-            <textarea placeholder="Your comment" name="comments" id="comments"></textarea>
+    <nav id="board-list"></nav>
 
-            <!-- <input type="file" name="image" id="image"> -->
-            <input type="submit" value="Send message" onclick="storeUsername()">
-        </form>
-
-        <div id="messages"></div>
-    </div>
-
-<script src="./home.js" type="text/javascript"></script>
+<script defer type="module" src="/home.js"></script>
 </body></html>
