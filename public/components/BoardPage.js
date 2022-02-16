@@ -1,5 +1,5 @@
-import { createThread } from "/components/Thread.js";
-import { createReply } from "/components/Reply.js";
+import { generateThread } from "/components/Thread.js";
+import { generateReply } from "/components/Reply.js";
 
 const replyPreviews = 3;
 
@@ -19,7 +19,7 @@ async function loadPage(boardName, pageIndex, e_threadList) {
 
     if (!threads[0]) {
         e_threadList.innerHTML = /* HTML */ `
-            <div id="no-threads" class="thread">
+            <div id="no-threads" class="thread fade-in">
                 No threads on this page, go make some!
             </div>
         `.trim();
@@ -28,7 +28,7 @@ async function loadPage(boardName, pageIndex, e_threadList) {
     for (const thread of threads) {
         if (!thread) break;
 
-        const e_thread = createThread(
+        const e_thread = generateThread(
             thread.id,
             thread.body.username,
             thread.body.title,
@@ -42,7 +42,7 @@ async function loadPage(boardName, pageIndex, e_threadList) {
             const reply = thread.replies[replyIndex];
             if (!reply) break;
 
-            const e_reply = createReply(
+            const e_reply = generateReply(
                 reply.id,
                 reply.body.username,
                 new Date(reply.unix).toUTCString(),

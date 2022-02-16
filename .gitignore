@@ -132,5 +132,7 @@ dist
 
 # custom ignore
 traffic_log/
+traffic_log/*
 public/
 .gitignore
+public/boards/*/threads.json

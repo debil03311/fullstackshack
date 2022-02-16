@@ -1,6 +1,6 @@
 import { loadBoards } from "/components/BoardList.js";
 import { loadPage } from "/components/BoardPage.js";
-import { openThread } from "/components/Thread.js";
+import { openLargeThread } from "/components/Thread.js";
 
 let globalPageIndex = 1;
 const pageCount = 4;
@@ -11,7 +11,7 @@ const e_threadList = document.getElementById("board-threads");
 const e_threadViewer = document.getElementById("thread-viewer");
 
 // open thread if in URL hash
-(window.location.hash) && openThread(window.location.hash, e_threadViewer);
+(window.location.hash) && openLargeThread(window.location.hash, e_threadViewer);
 
 // set board name on the page
 

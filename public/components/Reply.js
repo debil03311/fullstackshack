@@ -6,7 +6,7 @@
  * @param {String} text - Content of the reply
  * @returns HTMLElement
  */
-function createReply(id, username, date, text) {
+function generateReply(id, username, date, text) {
     const e_reply = document.createElement("div");
     e_reply.dataset.id = id;
     e_reply.className = "reply";
@@ -23,4 +23,4 @@ function createReply(id, username, date, text) {
     return e_reply;
 }
 
-export { createReply }
+export { generateReply }
