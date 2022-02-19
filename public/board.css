@@ -166,7 +166,7 @@
     opacity: .48;
 }
 
-#thread-viewer {
+#thread-viewer-wrapper {
     position: fixed;
     top: 0; left: 0;
     width: 100vw;
@@ -179,11 +179,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 16px;
 }
 
-#thread-viewer > * {
+#thread-viewer-wrapper > * {
     width: clamp(512px, 90%, 90%);
-    margin: 8px 0;
 }
 
 .btn-viewer-close {

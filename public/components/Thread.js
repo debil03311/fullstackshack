@@ -13,49 +13,16 @@ function getPost(postId) {
         .then((resp) => resp.json())
 }
 
-function generateReplyForm() {
-    const e_replyForm = document.createElement("form");
-    e_replyForm.id = "reply-form";
-    e_replyForm.action = "/post";
-
-    e_replyForm.innerHTML = /* HTML */ `
-        <input id="reply-username"
-            name="username"
-            maxlength="16"
-            placeholder="Anonymous">
-
-        <textarea id="reply-content"
-                  name="content"
-                  maxlength="1024"
-                  placeholder="Type here"
-        ></textarea>
-
-        <input id="reply-submit" type="submit" value="Post Reply">
-    `.trim();
-
-    return e_replyForm;
-}
-
 /**
  * Open a thread in "large" view
  * @param {Number} threadId 
- * @param {HTMLElement} e_threadViewer - Parent element for the "large" thread view
+ * @param {HTMLElement} e_threadViewer - Parent element the thread gets appeneded to
  */
 async function openLargeThread(threadId, e_threadViewer) {
     const op = await getPost(threadId);
     e_threadViewer.innerHTML = "";
 
-    const e_closeButton = document.createElement("div");
-    e_closeButton.className = "btn-viewer-close";
-    e_closeButton.innerText = "Close";
-    e_closeButton.onclick =()=> {
-        e_threadViewer.hidden = true
-    }
-    e_threadViewer.appendChild(e_closeButton);
-
-    const e_replyForm = generateReplyForm();
-    e_threadViewer.appendChild(e_replyForm);
-
+    // the thread itself
     const e_thread = generateThread(
         threadId,
         op.body.username,
@@ -69,6 +36,7 @@ async function openLargeThread(threadId, e_threadViewer) {
 
     const e_replies = e_thread.querySelector(".replies");
 
+    // append replies to thread
     for (const reply of op.replies) {
         const e_reply = generateReply(
             reply.id,
@@ -81,7 +49,7 @@ async function openLargeThread(threadId, e_threadViewer) {
     }
 
     e_threadViewer.appendChild(e_thread);
-    e_threadViewer.hidden = false;
+    e_threadViewer.parentElement.hidden = false;
 }
 
 /**

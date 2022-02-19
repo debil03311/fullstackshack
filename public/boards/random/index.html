@@ -25,7 +25,29 @@
 
     <nav class="page-selector" class="fade-in"></nav>
 
-    <div id="thread-viewer" hidden></div>
+    <div id="thread-viewer-wrapper" hidden>
+        <div class="btn-viewer-close"
+             onclick="this.parentElement.hidden = true">
+            Close
+        </div>
+
+        <form action="/post" method="POST" id="reply-form">
+            <input id="reply-username"
+                name="username"
+                maxlength="16"
+                placeholder="Anonymous">
+            
+            <textarea id="reply-content"
+                    name="content"
+                    maxlength="1024"
+                    placeholder="Type here"
+            ></textarea>
+            
+            <input id="reply-submit" type="submit" value="Post Reply">
+        </form>
+
+        <div id="thread-viewer"></div>
+    </div>
 
 <script defer type="module" src="/board.js"></script>
 </body></html>
