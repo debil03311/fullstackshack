@@ -166,6 +166,16 @@
     opacity: .48;
 }
 
+form {
+    background-color: var(--bg-alt);
+    border-radius: var(--rounding);
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 #thread-viewer-wrapper {
     position: fixed;
     top: 0; left: 0;
@@ -199,16 +209,6 @@
 
 .btn-viewer-close:hover {
     background-color: var(--red);
-}
-
-#reply-form {
-    background-color: var(--bg-alt);
-    border-radius: var(--rounding);
-    padding: 1em;
-
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 #reply-username,
@@ -247,7 +247,7 @@
     resize: vertical;
 }
 
-#reply-submit {
+.form-submit {
     background-color: var(--blue-light);
     color: var(--bg-alt);
     font: inherit;
@@ -259,7 +259,7 @@
     transition: 50ms background-color;
 }
 
-#reply-submit:hover {
+.form-submit:hover {
     background-color: var(--red);
 }
 

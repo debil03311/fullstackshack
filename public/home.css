@@ -90,7 +90,8 @@ header h1 {
 
 #board-list,
 .page-selector,
-#board-threads
+#board-threads,
+#thread-form
 {
     width: clamp(64px, 90%, 1024px);
 }

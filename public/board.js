@@ -55,11 +55,13 @@ for (const e_selector of e_pageSelectors) {
     e_selector.appendChild(e_pageButtonNext);
 }
 
-// highlight the active page button by adding .btn-active to it
-
 // all buttons in every selector
 const e_pageButtons = document.querySelectorAll(".btn-page");
 
+/**
+ * Highlight the active page button by adding .btn-active to it
+ * @param {Number} pageIndex 
+ */
 function activePageButton(pageIndex) {
     // remove .btn-active from every button
     for (const e_button of e_pageButtons) {
@@ -73,6 +75,10 @@ function activePageButton(pageIndex) {
 
 // page navigation
 
+/**
+ * Go to the previous group of threads
+ * @param {MouseEvent} event 
+ */
 function prevPage(event) {
     event.preventDefault();
     globalPageIndex--;
@@ -84,6 +90,10 @@ function prevPage(event) {
     activePageButton(globalPageIndex);
 }
 
+/**
+ * Go to the next group of threads
+ * @param {MouseEvent} event 
+ */
 function nextPage(event) {
     event.preventDefault();
     globalPageIndex++;
@@ -94,6 +104,24 @@ function nextPage(event) {
     loadPage(boardName, globalPageIndex, e_threadList);
     activePageButton(globalPageIndex);
 }
+
+// /**
+//  * Form submission handling
+//  * @param {String} postType 
+//  */
+// async function submitForm(postType) {
+//     console.log(postType);
+
+//     const post = await fetch("/post", {
+//         method: "POST",
+//         mode: "cors",
+//         cache: "reload",
+//         referrer: "origin",
+//         body: JSON.stringify({
+//             "post-type": postType
+//         })
+//     })
+// }
 
 // load the rest of the page
 

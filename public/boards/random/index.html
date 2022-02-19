@@ -19,6 +19,30 @@
 
     <nav class="page-selector" class="fade-in"></nav>
 
+    <form action="/post" method="POST" id="thread-form">
+        <input id="reply-username"
+            name="username"
+            maxlength="16"
+            placeholder="Anonymous">
+        
+        <textarea id="reply-content"
+                name="content"
+                maxlength="1024"
+                placeholder="Type here"
+        ></textarea>
+
+        <input class="form-submit"
+                type="submit"
+                value="Start Thread"
+                onclick="submitForm('thread')">
+        
+        <!-- <button class="form-submit"
+                type="submit"
+                onclick="submitForm('thread')">
+            Start Thread
+        </button> -->
+    </form>
+
     <div id="board-threads">
         If the page has been loading for a while, check to see that you have JavaScript enabled.
     </div>
@@ -42,8 +66,17 @@
                     maxlength="1024"
                     placeholder="Type here"
             ></textarea>
+
+            <input class="form-submit"
+                    type="submit"
+                    value="Post Reply"
+                    onclick="submitForm('reply')">
             
-            <input id="reply-submit" type="submit" value="Post Reply">
+            <!-- <button class="form-submit"
+                    type="submit"
+                    onclick="submitForm('reply')">
+                Post Reply
+            </button> -->
         </form>
 
         <div id="thread-viewer"></div>
