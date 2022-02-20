@@ -22,6 +22,9 @@ async function openLargeThread(threadId, e_threadViewer) {
     const op = await getPost(threadId);
     e_threadViewer.innerHTML = "";
 
+    // make body unscrollable
+    document.body.classList.add("no-scroll");
+
     // set hidden id in the form
     document.querySelector("[name='parent-thread']").value = threadId;
     

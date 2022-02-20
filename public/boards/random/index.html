@@ -60,7 +60,7 @@
 
     <div id="thread-viewer-wrapper" hidden>
         <div class="btn-viewer-close"
-             onclick="this.parentElement.hidden = true">
+        onclick="this.parentElement.hidden=true;document.body.classList.remove('no-scroll');">
             Close
         </div>
 
@@ -75,7 +75,7 @@
                 maxlength="1024"
                 autocomplete="off"
                 placeholder="Type here"
-                ></textarea>
+            ></textarea>
 
             <div hidden>
                 <!-- Don't mess with these -->

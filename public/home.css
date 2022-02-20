@@ -55,6 +55,10 @@
     background-color: var(--yellow);
 }
 
+.no-scroll {
+    overflow: hidden !important;
+}
+
 * {
     box-sizing: border-box;
 }
