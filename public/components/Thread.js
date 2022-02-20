@@ -22,6 +22,9 @@ async function openLargeThread(threadId, e_threadViewer) {
     const op = await getPost(threadId);
     e_threadViewer.innerHTML = "";
 
+    // set hidden id in the form
+    document.querySelector("[name='parent-thread']").innerText = threadId;
+    
     // the thread itself
     const e_thread = generateThread(
         threadId,
@@ -29,8 +32,8 @@ async function openLargeThread(threadId, e_threadViewer) {
         op.body.title,
         new Date(op.unix).toUTCString(),
         op.body.content,
-    );
-
+        );
+        
     // e_thread.querySelector(".post-id")
     //     .onclick =()=> openReply(threadId);
 

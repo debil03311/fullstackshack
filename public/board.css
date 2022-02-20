@@ -211,6 +211,8 @@ form {
     background-color: var(--red);
 }
 
+#thread-username,
+#thread-content,
 #reply-username,
 #reply-content
 {
@@ -229,6 +231,8 @@ form {
     border-color: var(--yellow);
 } */
 
+#thread-username:focus,
+#thread-content:focus,
 #reply-username:focus,
 #reply-content:focus
 {
@@ -236,13 +240,17 @@ form {
     border-color: var(--red);
 }
 
-#reply-username {
+#thread-username,
+#reply-username
+{
     width: max-content;
     border-bottom: solid 2px var(--blue-light);
     font-weight: 600;
 }
 
-#reply-content {
+#thread-content,
+#reply-content
+{
     min-height: 8em;
     resize: vertical;
 }

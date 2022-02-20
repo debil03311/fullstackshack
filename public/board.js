@@ -10,13 +10,29 @@ const e_boardList = document.getElementById("board-list");
 const e_threadList = document.getElementById("board-threads");
 const e_threadViewer = document.getElementById("thread-viewer");
 
+const e_replyUsername = document.getElementById("reply-username");
+const e_threadUsername = document.getElementById("thread-username");
+
 // open thread if in URL hash
 (window.location.hash) && openLargeThread(window.location.hash, e_threadViewer);
 
 // set board name on the page
-
 const boardName = window.location.pathname.split('/')[2];
 e_boardName.innerText = boardName;
+
+// load username if one exists
+const username = localStorage.username;
+
+for (const e_usernameField of [e_replyUsername, e_threadUsername]) {
+    if (username)
+        e_usernameField.value = username;
+
+    // save username when focus of the field is lost
+    e_usernameField.onblur =(e)=> {
+        if (e.target.value)
+            localStorage.setItem("username", e.target.value);
+    }
+}
 
 // fill all page selectors with page buttons
 
@@ -104,24 +120,6 @@ function nextPage(event) {
     loadPage(boardName, globalPageIndex, e_threadList);
     activePageButton(globalPageIndex);
 }
-
-// /**
-//  * Form submission handling
-//  * @param {String} postType 
-//  */
-// async function submitForm(postType) {
-//     console.log(postType);
-
-//     const post = await fetch("/post", {
-//         method: "POST",
-//         mode: "cors",
-//         cache: "reload",
-//         referrer: "origin",
-//         body: JSON.stringify({
-//             "post-type": postType
-//         })
-//     })
-// }
 
 // load the rest of the page
 
