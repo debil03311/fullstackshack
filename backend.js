@@ -1,71 +1,51 @@
 const express = require('express');
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const bfun = require('./backend_functions.js');
+const cookieParser = require('cookie-parser');
 
-// important for requests
-const bodyParser = require('body-parser');
+// routes
+const homeRouter = require(path.resolve(__dirname, 'routes', 'homeRouter.js'));
+const apiRouter = require(path.resolve(__dirname, 'routes', 'apiRouter.js'));
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-// specify the rendering engine
-app.set('view engine', 'ejs');
 
-// use the current directory + additional ones for dependencies within files
-app.use(express.static(__dirname + '/views'));
+// this applies middleware to every HTTP event in this exact order
+app.use(cookieParser());
+app.use(bfun.cookieCheck);
+app.use(bfun.reqLog);
 
-app.get('/front_page', (req, res) => {
-    // this uses EJS to render the page
-    // res.render('front_page');
 
-    // this just sends the file directly
-    // __dirname is awesome, it gets the current directory
-    // res.sendFile(`${__dirname}/views/front_page.html`);
-    res.sendFile(`${__dirname}/views/front_page.html`);
+// parse the body of HTTP requests
+app.use(express.urlencoded({ extended: false }));
+
+// using the routers in order
+app.use('/api', apiRouter);
+app.use('/', homeRouter);
+
+
+
+
+// if the resource does not exist
+app.all('*', (req, res) => {
+    res.status(404).send('<h1>Resource could not be found</h1>');
 });
 
-app.post('/front_page', (req, res) => {
-    // gets current time, in millisecond since 1/01/1970
-    // so use the time formatting functions below 
-    const d = new Date();
 
-    // console.log(req);
 
-    // only run if string is not empty
-    if (!req.body.username || !req.body.comments)
-        return res.redirect('back');
+const currentOS = {
+    type: os.type(),
+    release: os.release(),
+    uptime: os.uptime(),
+    totalMem: os.totalmem(),
+    freeMem: os.freemem(),
+};
 
-    console.log(`Message: ${req.body.comments} | From: ${req.ip} | On: ${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()} | At: ${d.getUTCHours()}:${d.getUTCMinutes()} UTC`);
+console.log(currentOS);
 
-    fs.readFile(
-        `${__dirname}/views/chatLog.json`,
-        'utf-8',
-        (err, data) => {
-            if (err) throw err;
-            data = JSON.parse(data);
-
-            data.push({
-                date: `${d.getUTCDate}/${d.getUTCMonth()}/${d.getUTCFullYear()}`,
-                time: `${d.getUTCHours()}:${d.getUTCMinutes()}`,
-                sender: req.body.username,
-                message: req.body.comments,
-            });
-
-            fs.writeFile(
-                `${__dirname}/views/chatLog.json`,
-                JSON.stringify(data),
-                (err) => {
-                    if (err) throw err;
-                }
-            );
-        }
-    );
-
-    res.redirect('back');
+app.listen(4200, () => {
+    console.log('Server is up and listening on port 4200...')
 });
 
-// use custom routing files
-const userRouter = require('./routes/users.js');
-app.use('/users', userRouter);
-
-app.listen(4200);

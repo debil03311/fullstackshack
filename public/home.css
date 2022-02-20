@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,900;1,300;1,400;1,600;1,900&family=Staatliches&display=swap');
+
+@keyframes header {
+    0% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--blue)
+        ;
+    }
+
+    50% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--green)
+        ;
+    }
+
+    100% {
+        text-shadow:
+            3px 3px 0 var(--bg),
+            4px 4px 0 var(--red)
+        ;
+    }
+}
+
+:root {
+    --bg: #383a42;
+    --fg: #EEE;
+
+    --bg-alt: #282c34;
+
+    --red: #e06c75;
+    --yellow: #e5c07b;
+    --green: #98c379;
+    --purple: #c678dd;
+    --blue: #61aff0;
+    --blue-light: #56b6c2;
+
+    --rounding: 5px;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-corner
+{
+    background-color: var(--bg-alt);
+}
+
+::-webkit-scrollbar {
+    --size: 8px;
+    width: var(--size);
+    height: var(--size);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--yellow);
+}
+
+.no-scroll {
+    overflow: hidden !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--fg);
+    font: 400 14pt "Source Sans Pro", sans-serif;
+    margin: 0 0 4em 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+a {
+    color: var(--red);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+h1, h2, h3, h4 {
+    font: bold 48pt 'Staatliches', sans-serif;
+    text-transform: uppercase;
+}
+
+header h1 {
+    transform: skew(-4deg, -1deg);
+    animation: 2s header alternate linear infinite;
+}
+
+#board-list,
+.page-selector,
+#board-threads,
+#thread-form
+{
+    width: clamp(64px, 90%, 1024px);
+}
+
+#board-list {
+    background-color: var(--bg-alt);
+    border-radius: var(--rounding);
+    padding: .8em 1.4em;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.board {
+    text-align: center;
+}
+
+.board:hover {
+    color: var(--fg);
+}
