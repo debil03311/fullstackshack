@@ -1,7 +1,7 @@
 import { generateThread } from "/components/Thread.js";
 import { generateReply } from "/components/Reply.js";
 
-const replyPreviews = 3;
+const maxReplyPreviews = 3;
 
 /**
  * Gets a list of threads for the given board and page
@@ -36,9 +36,14 @@ async function loadPage(boardName, pageIndex, e_threadList) {
             thread.body.content,
         );
 
+        const replyCount = thread.replies.length;
         const e_threadReplies = e_thread.querySelector(".replies");
 
-        for (let replyIndex=0; replyIndex<replyPreviews; replyIndex++) {
+        for (
+            let replyIndex = replyCount - maxReplyPreviews;
+            replyIndex < replyCount;
+            replyIndex++
+        ) {
             const reply = thread.replies[replyIndex];
             if (!reply) break;
 
