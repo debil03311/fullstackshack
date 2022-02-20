@@ -23,7 +23,7 @@ async function openLargeThread(threadId, e_threadViewer) {
     e_threadViewer.innerHTML = "";
 
     // set hidden id in the form
-    document.querySelector("[name='parent-thread']").innerText = threadId;
+    document.querySelector("[name='parent-thread']").value = threadId;
     
     // the thread itself
     const e_thread = generateThread(

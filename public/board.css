@@ -211,7 +211,17 @@ form {
     background-color: var(--red);
 }
 
+#thread-top {
+    display: flex;
+    gap: 10px;
+}
+
+#thread-title {
+    flex-grow: 1;
+}
+
 #thread-username,
+#thread-title,
 #thread-content,
 #reply-username,
 #reply-content
@@ -232,6 +242,7 @@ form {
 } */
 
 #thread-username:focus,
+#thread-title:focus,
 #thread-content:focus,
 #reply-username:focus,
 #reply-content:focus

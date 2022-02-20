@@ -34,6 +34,9 @@ for (const e_usernameField of [e_replyUsername, e_threadUsername]) {
     }
 }
 
+for (const e_boardField of document.querySelectorAll("[name='board']"))
+    e_boardField.value = boardName;
+
 // fill all page selectors with page buttons
 
 const e_pageSelectors = document.querySelectorAll(".page-selector");

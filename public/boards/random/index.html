@@ -20,19 +20,31 @@
     <nav class="page-selector" class="fade-in"></nav>
 
     <form action="/post" method="POST" id="thread-form">
-        <input id="thread-username"
-            name="username"
-            maxlength="16"
-            placeholder="Anonymous">
+        <div id="thread-top">
+            <input id="thread-username"
+                name="username"
+                maxlength="16"
+                placeholder="Anonymous">
+
+            <input id="thread-title"
+                name="title"
+                maxlength="32"
+                autocomplete="off"
+                placeholder="Thread title">
+        </div>
         
         <textarea id="thread-content"
                 name="content"
                 maxlength="1024"
+                autocomplete="off"
                 placeholder="Type here"
         ></textarea>
 
-        <!-- Don't mess with this -->
-        <textarea hidden name="post-type">OP</textarea>
+        <div hidden>
+            <!-- Don't mess with these -->
+            <input name="board">
+            <input name="post-type" value="OP">
+        </div>
 
         <input class="form-submit"
                 type="submit"
@@ -61,15 +73,20 @@
             <textarea id="reply-content"
                 name="content"
                 maxlength="1024"
+                autocomplete="off"
                 placeholder="Type here"
                 ></textarea>
 
-            <!-- Don't mess with these -->
-            <textarea hidden name="post-type">REPLY</textarea>
-            <textarea hidden name="parent-thread"></textarea>
+            <div hidden>
+                <!-- Don't mess with these -->
+                <input name="board">
+                <input name="post-type" value="REPLY">
+                <input name="parent-thread">
+            </div>
 
             <input class="form-submit"
                     type="submit"
+                    autocomplete="off"
                     value="Post Reply"
                     onclick="submitForm('reply')">
         </form>
