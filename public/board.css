@@ -132,6 +132,7 @@
 }
 
 .text {
+    white-space: pre-line;
     margin-top: 4px;
 }
 
