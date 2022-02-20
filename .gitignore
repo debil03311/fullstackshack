@@ -133,4 +133,3 @@ dist
 # custom ignore
 traffic_log/*
 .gitignore
-public/boards/*/threads.json

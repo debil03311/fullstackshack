@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    
+    <title>FullStackShack</title>
+    <link rel="stylesheet" href="/board.css">
+    <link rel="stylesheet" href="/home.css">
+</head><body>
+
+    <header class="fade-in">
+        <h1 id="board-name">Loading board...</h1>
+    </header>
+    
+    <div id="board-list" class="fade-in">
+        <a class="btn-home" href="/">home</a>
+    </div>
+
+    <nav class="page-selector" class="fade-in"></nav>
+
+    <form action="/post" method="POST" id="thread-form">
+        <div id="thread-top">
+            <input id="thread-username"
+                name="username"
+                maxlength="16"
+                placeholder="Anonymous">
+
+            <input id="thread-title"
+                name="title"
+                maxlength="32"
+                autocomplete="off"
+                placeholder="Thread title">
+        </div>
+        
+        <textarea id="thread-content"
+                name="content"
+                maxlength="1024"
+                autocomplete="off"
+                placeholder="Type here"
+        ></textarea>
+
+        <div hidden>
+            <!-- Don't mess with these -->
+            <input name="board">
+            <input name="post-type" value="OP">
+        </div>
+
+        <input class="form-submit"
+                type="submit"
+                value="Start Thread"
+                onclick="submitForm('thread')">
+    </form>
+
+    <div id="board-threads">
+        If the page has been loading for a while, check to see that you have JavaScript enabled.
+    </div>
+
+    <nav class="page-selector" class="fade-in"></nav>
+
+    <div id="thread-viewer-wrapper" hidden>
+        <div class="btn-viewer-close"
+        onclick="this.parentElement.hidden=true;document.body.classList.remove('no-scroll');">
+            Close
+        </div>
+
+        <form action="/post" method="POST" id="reply-form">
+            <input id="reply-username"
+                name="username"
+                maxlength="16"
+                placeholder="Anonymous">
+
+            <textarea id="reply-content"
+                name="content"
+                maxlength="1024"
+                autocomplete="off"
+                placeholder="Type here"
+            ></textarea>
+
+            <div hidden>
+                <!-- Don't mess with these -->
+                <input name="board">
+                <input name="post-type" value="REPLY">
+                <input name="parent-thread">
+            </div>
+
+            <input class="form-submit"
+                    type="submit"
+                    value="Post Reply"
+                    onclick="submitForm('reply')">
+        </form>
+
+        <div id="thread-viewer"></div>
+    </div>
+
+<script defer type="module" src="/board.js"></script>
+</body></html>
