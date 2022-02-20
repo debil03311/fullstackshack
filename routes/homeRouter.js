@@ -1,5 +1,7 @@
+const { timeEnd } = require('console');
 const express = require('express');
 const fs = require('fs');
+const { arch } = require('os');
 const path = require('path');
 
 
@@ -89,19 +91,27 @@ router.get('/*', (req, res) => {
 
 // method POST
 
-// work in progress
 router.post('/post', (req, res) => {
 
     const time = new Date();
+    console.log(req.body);
+
+    // for anons
+    if (req.body.username === '') {
+        req.body.username = 'Anonymous';
+    }
+
 
     // very important POST validator, so that users don't break the server by posting an incorrect body format
-    const validThread = { board: 'string', postType: 'string', username: 'string', content: 'string', title: 'string' };
-    const validReply = { board: 'string', postType: 'string', username: 'string', content: 'string', parentID: 'string' };
+    const validThread = { board: 'string', 'post-type': 'string', username: 'string', content: 'string', title: 'string' };
+    const validReply = { board: 'string', 'post-type': 'string', username: 'string', content: 'string', 'parent-thread': 'string' };
     const validThreadProps = Object.keys(validThread);
     const validReplyProps = Object.keys(validReply);
     const requestBodyProps = Object.keys(req.body);
 
-    if ( req.body.postType === "op") {
+
+    // OP type
+    if ( req.body['post-type'] === "OP") {
 
         // check if the number of properties match
         if (requestBodyProps.length === validThreadProps.length) {
@@ -110,7 +120,7 @@ router.post('/post', (req, res) => {
             for (let propName of validThreadProps) {
                 if (!requestBodyProps.includes(propName)) {
                     console.log('Body doesn\'t have the correct property names');
-                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect property names');
                     return;
                 }
             }
@@ -120,18 +130,19 @@ router.post('/post', (req, res) => {
             for (let propName in req.body) {
                 if (typeof(req.body[propName]) !== validThread[propName]) {
                     console.log('Body doesn\'t have the correct property data types');
-                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect property data types');
                     return;
                 }
             }
 
         } else {
             console.log('Body doesn\'t have the correct number of properties');
-            res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+            res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect number of properties');
             return;
         }
 
-    } else if ( req.body.postType === "reply") {
+    // REPLY type
+    } else if ( req.body['post-type'] === "REPLY") {
 
         if (requestBodyProps.length === validReplyProps.length) {
 
@@ -139,7 +150,7 @@ router.post('/post', (req, res) => {
             for (let propName of validReplyProps) {
                 if (!requestBodyProps.includes(propName)) {
                     console.log('Body doesn\'t have the correct property names');
-                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+                    res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect property names');
                     return;
                 }
 
@@ -148,7 +159,7 @@ router.post('/post', (req, res) => {
                 for (let propName in req.body) {
                     if (typeof(req.body[propName]) !== validReply[propName]) {
                         console.log('Body doesn\'t have the correct property data types');
-                        res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+                        res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect property data types');
                         return;
                     }
                 }
@@ -156,13 +167,13 @@ router.post('/post', (req, res) => {
 
         } else {
             console.log('Body doesn\'t have the correct number of properties');
-            res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+            res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, incorrect number of properties');
             return;
         }
 
     } else {
         console.log('Post type isn\'t OP nor REPLY');
-        res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format');
+        res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, impossible type');
         return;
     }
 
@@ -180,18 +191,19 @@ router.post('/post', (req, res) => {
                 return;
             }
 
-            let postsTrackFile = fs.readFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.txt'));
+            let postsTrackFile = fs.readFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.json'), 'utf-8');
             postsTrackFile = JSON.parse(postsTrackFile);
 
-            const newPostID = postsTrackFile.board + 1;
+            const newPostID = postsTrackFile[req.body.board] + 1;
             let newPost = 'placeholder';
 
-            if (req.body.postType === 'op') {
+            // OP type
+            if (req.body['post-type'] === 'OP') {
 
                 newPost = {
-                    type: "op",
+                    type: "OP",
                     id: newPostID,
-                    unix: time,
+                    unix: time.getTime(),
                     body: 
                     {
                         username: req.body.username,
@@ -200,36 +212,83 @@ router.post('/post', (req, res) => {
                     },
                     replies: []
                 }
-            } else if (req.body.postType === 'reply') {
+
+                threadsFile = JSON.parse(threadsFile);
+                threadsFile.unshift(newPost);
+
+                // archive last thread
+                if (threadsFile.length >= 41) {
+
+                    const fileName = `${time.getUTCFullYear()}${time.getUTCMonth() + 1}${time.getUTCDate()}.json`;
+                    const archivePath = path.resolve(__dirname, '..', 'archive', 'boards', req.body.board);
+
+                    // file already exists
+                    if ( fs.existsSync(path.resolve(archivePath, fileName)) ) {
+
+                        let archive = fs.readFileSync(path.resolve(archivePath, fileName), 'utf-8');
+                        archive = JSON.parse(archive);
+
+                        archive.push(threadsFile.pop());
+                        fs.writeFileSync(path.resolve(archivePath, fileName), JSON.stringify(archive), 'utf-8');
+
+    
+                    // file does not exist yet
+                    } else {
+
+                        let oldThread = threadsFile.pop();
+                        let archive = `[${JSON.stringify(oldThread)}]`;
+                        fs.writeFileSync(path.resolve(archivePath, fileName), archive, 'utf-8');
+                    }
+
+                   
+                }
+
+                fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'boards', req.body.board, 'threads.json'), JSON.stringify(threadsFile), 'utf-8');
+
+                postsTrackFile[req.body.board] = newPostID;
+                fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.json'), JSON.stringify(postsTrackFile), 'utf-8');
+                
+                res.redirect('/board/' + req.body.board);
+
+
+            // REPLY type
+            } else if (req.body['post-type'] === 'REPLY') {
 
                 newPost = {
-                    type: "reply",
+                    type: "REPLY",
                     id: newPostID,
-                    unix: time,
+                    unix: time.getTime(),
                     body: 
                     {
                         username: req.body.username,
                         content: req.body.content 
                     }
                 }
+
+                threadsFile = JSON.parse(threadsFile);
+
+                // find parent thread
+                for (let index in threadsFile) {
+                    // string or number, doesn't matter
+                    if (threadsFile[index].id == req.body['parent-thread']) {
+                        threadsFile[index].replies.push(newPost);
+                        break;
+                    }
+                }
+                
+                fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'boards', req.body.board, 'threads.json'), JSON.stringify(threadsFile), 'utf-8');
+
+                postsTrackFile[req.body.board] = newPostID;
+                fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.json'), JSON.stringify(postsTrackFile), 'utf-8');
+                
+                res.redirect('/board/' + req.body.board);
+
+
+
             } else {
                 res.status(400).header( {'content-type': 'text/plain' } ).send('Invalid POST format, how did you get past my first validator?');
                 return;
             }
-
-            // resume here
-            // increase the post ID number in num_of_posts.json
-            // and add the newPost to the correct threads.json
-
-            postsTrackFile[req.body.board] = newPostID;
-            fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'num_of_posts.json'), JSON.stringify(postsTrackFile), 'utf-8');
-
-            threadsFile = JSON.parse(threadsFile);
-            threadsFile.push(newPost);
-            fs.writeFileSync(path.resolve(__dirname, '..', 'public', 'boards', req.body.board, 'threads.json'), JSON.stringify(threadsFile), 'utf-8');
-            
-            res.redirect('/board/' + req.body.board);
-
         }
     );
 });
